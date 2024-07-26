@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <title>Testimonial Slider with Automatic Rotation</title>
+    <style>
+        .iq-features {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+        .holderCircle {
+            width: 50%;
+            height: 80vh;
+            border-radius: 100%;
+            position: relative;
+            max-width: 500px;
+            max-height: 500px;
+        }
+        .round {
+            background-image: url(https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579876.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            position: absolute;
+            width: 85%;
+            height: 85%;
+            border-radius: 100%;
+            left: 7.5%;
+            top: 7.5%;
+        }
+        .dotCircle {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            border-radius: 100%;
+            z-index: 20;
+        }
+        .dotCircle .itemDot {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 9%;
+            width: 12%;
+            position: absolute;
+            color: #7D4AC7;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 80px;
+            z-index: 3;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+        .itemDot img {
+            width: 100%;
+            transition: transform 0.5s;
+        }
+        .dotCircle .itemDot .forActive {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+        .dotCircle .itemDot.active .forActive {
+            display: block;
+        }
+        .dotCircle .itemDot:hover,
+        .dotCircle .itemDot.active {
+            color: transparent;
+            background-color: transparent;
+        }
+        .dotCircle .itemDot.active img {
+            transform: scale(1.5); /* Scale up the active image */
+        }
+        .contentCircle {
+            border-radius: 100%;
+            color: #222222;
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+            width: 50%;
+            height: 80vh;
+            display: flex;
+            align-items: end;
+            max-width: 500px;
+            max-height: 500px;
+        }
+        .contentCircle .CirItem {
+            border-radius: 100%;
+            color: #222222;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: 0.5s;
+            width: 80%;
+            height: 80%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            overflow-x: clip;
+        }
+        .CirItem.active {
+            z-index: 1;
+            opacity: 1;
+            transform: scale(1);
+            transition: 0.5s;
+        }
+        .title-box .title {
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: -1;
+            margin: 0;
+            padding: 0;
+        }
+        .title-box span {
+            color: #394074;
+            font-size: 28px;
+            font-weight: 800;
+            font-family: 'Roboto Condensed', Helvetica, Arial, Lucida, sans-serif;
+        }
+        .title-box p {
+            font-size: 16px;
+            color: #394074;
+            font-weight: 400;
+            text-align: left;
+            font-family: 'Samsung sharp sans', Helvetica, Arial, Lucida, sans-serif;
+        }
+        .title-box h3 {
+            font-size: 12px;
+            color: #394074;
+            font-family: poppins;
+            font-style: italic;
+            font-weight: 400;
+            padding-top: 20px;
+            width: 100%;
+            text-align: end;
+        }
+        .main {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .main img {
+            width: 30%;
+            padding-bottom: 20px;
+        }
+        .navDots {
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+        }
+        .navDots .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .navDots .dot.active {
+            background-color: #3ABED5;
+            width: 20px;
+            border-radius: 20px;
+        }
+        .itemDot.active img {
+            filter: grayscale(0);
+        }
+        .contentCircle .CirItem img {
+            padding-top: 20px;
+        }
+        @media (max-width: 1100px) {
+            .iq-features {
+                flex-direction: column;
+            }
+            .holderCircle,
+            .contentCircle {
+                width: 100%;
+                height: 60vh;
+            }
+        }
+        @media (max-width: 768px) {
+            .holderCircle {
+                height: 50vh;
+            }
+            .dotCircle .itemDot {
+                height: 12%;
+                width: 16%;
+                line-height: 60px;
+            }
+            .dotCircle .itemDot .forActive {
+                width: 36px;
+                height: 36px;
+            }
+            .contentCircle {
+                height: 50vh;
+            }
+            .contentCircle .CirItem {
+                width: 70%;
+                height: 70%;
+            }
+            .round {
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+            }
+        }
+        @media (max-width: 480px) {
+            .holderCircle {
+                height: 40vh;
+            }
+            .dotCircle .itemDot {
+                height: 14%;
+                width: 18%;
+                line-height: 50px;
+            }
+            .dotCircle .itemDot .forActive {
+                width: 28px;
+                height: 28px;
+            }
+            .contentCircle {
+                height: 40vh;
+            }
+            .contentCircle .CirItem {
+                width: 65%;
+                height: 65%;
+            }
+            .round {
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+            }
+            .title-box span {
+                font-size: 20px;
+            }
+            .title-box p,
+            .title-box h3 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body data-rsssl=1 data-rsssl=1>
+    <section>
+        <div class="iq-features">
+            <div class="holderCircle">
+                <div class="round"></div>
+                <div class="dotCircle">
+                    <span class="itemDot active itemDot1" data-tab="1">
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579875.png">
+                        <span class="forActive"></span>
+                    </span>
+                    <span class="itemDot itemDot2" data-tab="2">
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579882.png">
+                        <span class="forActive"></span>
+                    </span>
+                    <span class="itemDot itemDot3" data-tab="3">
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579875.png">
+                        <span class="forActive"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="contentCircle">
+                <div class="CirItem title-box active CirItem1">
+                    <div class="main">
+                        <h2 class="title"><span>Sesha Ki Shonk</span></h2>
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579877.png" alt="">
+                    </div>
+                    <p>We’ve been using Grow Kids Curriculum for about 2 years. I love it and my volunteers love it. For me, I love that set up doesn’t take hours each week. There are so many resources available with Grow, including family resources, volunteer resources, videos, fun games, great activities and coloring pages. I love the big ideas each week and I love that it is so biblically based.</p>
+                    <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Line-283.png" alt="">
+                    <h3>- Director of Children’s Ministry at Life Foursquare</h3>
+                </div>
+                <div class="CirItem title-box CirItem2">
+                    <div class="main">
+                        <h2 class="title"><span>Matt Courtney</span></h2>
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579877.png" alt="">
+                    </div>
+                    <p>Grow Students Curriculum + Strategy is awesome! Home run! I have been doing youth ministry full time for 12 years. I have tried it all, been burned out, and man this really works - the best I have ever seen. From a small town youth pastor, thank you.</p>
+                    <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Line-283.png" alt="">
+                    <h3>- Director of Children’s Ministry at Life Foursquare</h3>
+                </div>
+                <div class="CirItem title-box CirItem3">
+                    <div class="main">
+                        <h2 class="title"><span>Sesha Ki Shonk</span></h2>
+                        <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Group-1484579877.png" alt="">
+                    </div>
+                    <p>We’ve been using Grow Kids Curriculum for about 2 years. I love it and my volunteers love it. For me, I love that set up doesn’t take hours each week. There are so many resources available with Grow, including family resources, volunteer resources, videos, fun games, great activities and coloring pages. I love the big ideas each week and I love that it is so biblically based.</p>
+                    <img src="https://stuffyoucanuse.org/1720124758554/wp-content/uploads/2024/07/Line-283.png" alt="">
+                    <h3>- Director of Children’s Ministry at Life Foursquare</h3>
+                </div>
+                <div class="navDots">
+                    <span class="dot active" data-tab="1"></span>
+                    <span class="dot" data-tab="2"></span>
+                    <span class="dot" data-tab="3"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            let i = 1; // Start with the first item as active
+            var radius = 200;
+            var fields = $('.itemDot');
+            var container = $('.dotCircle');
+            var contentContainer = $('.contentCircle');
+            var navDots = $('.navDots .dot');
+            var width = container.width();
+            radius = width / 2.5;
+            var height = container.height();
+            var angle = 0, step = (2 * Math.PI) / fields.length;
+            
+            fields.each(function(index) {
+                var x = Math.round(width / 2 + radius * Math.cos(angle) - $(this).width() / 2);
+                var y = Math.round(height / 2 + radius * Math.sin(angle) - $(this).height() / 2);
+                $(this).css({
+                    left: x + 'px',
+                    top: y + 'px'
+                });
+                angle += step;
+            });
+            
+            function rotateTestimonials() {
+                i = i % fields.length + 1; // Increment i and wrap around if necessary
+                $('.itemDot[data-tab="' + i + '"]').click(); // Simulate click on the next dot
+            }
+            
+            var interval = setInterval(rotateTestimonials, 10000); // Run rotateTestimonials every 10 seconds
+            
+            // Stop the rotation on hover
+            container.hover(function() {
+                clearInterval(interval);
+            }, function() {
+                interval = setInterval(rotateTestimonials, 10000);
+            });
+            
+            // Click handler for dots
+            $('.itemDot, .navDots .dot').click(function(){
+                var dataTab = $(this).data("tab");
+                $('.itemDot').removeClass('active');
+                $('.navDots .dot').removeClass('active');
+                $('.itemDot[data-tab="' + dataTab + '"]').addClass('active');
+                $('.navDots .dot[data-tab="' + dataTab + '"]').addClass('active');
+                $('.CirItem').removeClass('active');
+                $('.CirItem' + dataTab).addClass('active');
+                i = dataTab;
+                $('.dotCircle').css({
+                    "transform": "rotate(" + (360 - (i - 1) * (360 / fields.length)) + "deg)",
+                    "transition": "2s"
+                });
+                $('.itemDot').css({
+                    "transform": "rotate(" + ((i - 1) * (360 / fields.length)) + "deg)",
+                    "transition": "1s"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
